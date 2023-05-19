@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    container_name: nest-postgres-container
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "postgres"
+    ports:
+      - "5432:5432"
+    volumes:
+      - algo-complexity-db:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - nestapp
+
+  rabbitmq:
+    image: rabbitmq:3.8-management-alpine
+    container_name: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - nestapp
+
+networks:
+  nestapp:
+    driver: bridge
+
+volumes:
+  algo-complexity-db:
+    driver: local
