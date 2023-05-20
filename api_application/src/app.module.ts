@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { NQueenModule } from './modules/n-queen/n-queen.module';
 import { SudokuModule } from './modules/sudoku/sudoku.module';
 import { MazeResolverModule } from './modules/maze-resolver/maze-resolver.module';
 import configuration from './shared/config/configuration';
+import { RabbitMQServerModule } from './shared/infra/rabbitmq-server.module';
 
 @Module({
   imports: [
@@ -28,11 +27,10 @@ import configuration from './shared/config/configuration';
       }),
       inject: [ConfigService],
     }),
+    RabbitMQServerModule,
     NQueenModule,
     SudokuModule,
     MazeResolverModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
