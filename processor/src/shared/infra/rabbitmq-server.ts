@@ -2,6 +2,7 @@ import {
   Injectable,
   OnModuleInit,
   OnApplicationShutdown,
+  Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Message } from 'amqplib';
@@ -13,6 +14,8 @@ import {
 
 @Injectable()
 export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
+  private logger = new Logger(RabbitMQServer.name);
+
   private url: string;
   private connection: AmqpConnectionManager;
   private channelWrapper: ChannelWrapper;
@@ -25,6 +28,10 @@ export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
       this.url = url;
       this.connection = connect([this.url]);
       this.channelWrapper = this.connection.createChannel();
+
+      this.connection.on('connect', () => {
+        this.logger.log('Connected to RabbitMQ');
+      });
     }
   }
 
@@ -43,6 +50,8 @@ export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
   }
 
   async addSetup(queue: string, handle: any): Promise<void> {
+    this.logger.log(`Add setup to queue ${queue}`);
+
     this.channelWrapper.addSetup((channel) => {
       return Promise.all([
         channel.assertQueue(queue),
