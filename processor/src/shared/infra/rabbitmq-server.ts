@@ -56,6 +56,9 @@ export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
       return Promise.all([
         channel.assertQueue(queue),
         channel.consume(queue, (message) => {
+          this.logger.log(
+            `Message received: ${message.content.toString()} on queue ${queue}`,
+          );
           handle.process(message);
           channel.ack(message);
         }),

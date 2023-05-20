@@ -2,6 +2,7 @@ import {
   Injectable,
   OnModuleInit,
   OnApplicationShutdown,
+  Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Message } from 'amqplib';
@@ -13,6 +14,8 @@ import {
 
 @Injectable()
 export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
+  private readonly logger = new Logger(RabbitMQServer.name);
+
   private url: string;
   private connection: AmqpConnectionManager;
   private channelWrapper: ChannelWrapper;
@@ -55,6 +58,8 @@ export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
   }
 
   async publishInQueue(queue: string, message: string) {
+    this.logger.log(`Publishing in queue: ${queue} - ${message}`);
+
     await this.channelWrapper.assertQueue(queue);
     return this.channelWrapper.sendToQueue(queue, Buffer.from(message));
   }
