@@ -39,6 +39,7 @@ export class SudokuService {
         status: ProcessStatus.COMPLETED,
         totalTimeToProcess,
         result,
+        finishedAt: new Date(),
       },
     };
 

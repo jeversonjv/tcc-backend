@@ -39,6 +39,7 @@ export class NQueenService {
         status: ProcessStatus.COMPLETED,
         totalTimeToProcess,
         result,
+        finishedAt: new Date(),
       },
     };
 

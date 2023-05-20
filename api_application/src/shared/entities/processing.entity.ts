@@ -1,10 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { ProcessStatus } from '../enums/process-status.enum';
 import { Sudoku } from 'src/modules/sudoku/entities/sudoku.entity';
 import { NQueen } from 'src/modules/n-queen/entities/n-queen.entity';
@@ -35,9 +29,9 @@ export class Processing {
   })
   result: JSON;
 
-  @CreateDateColumn({
+  @Column({
     name: 'finished_at',
-    type: 'timestamp',
+    type: 'timestamp with time zone',
   })
   finishedAt: Date;
 

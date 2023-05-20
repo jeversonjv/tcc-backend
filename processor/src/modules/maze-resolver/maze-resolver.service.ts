@@ -40,6 +40,7 @@ export class MazeResolverService {
         status: ProcessStatus.COMPLETED,
         totalTimeToProcess,
         result,
+        finishedAt: new Date(),
       },
     };
 
