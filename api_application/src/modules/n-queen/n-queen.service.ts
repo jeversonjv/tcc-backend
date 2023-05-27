@@ -23,7 +23,14 @@ export class NQueenService {
     const nQueens = await this.nQueensRepository.find({
       relations: ['processing'],
     });
-    return nQueens;
+    return nQueens.map((nQueen) => ({
+      id: nQueen.id,
+      numberOfQueens: nQueen.numberOfQueens,
+      processing: {
+        status: nQueen.processing.status,
+        totalTimeProcess: nQueen.processing.totalTimeToProcess,
+      },
+    }));
   }
 
   async findOne(id: string) {

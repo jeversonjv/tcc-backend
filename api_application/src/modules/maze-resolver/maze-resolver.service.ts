@@ -21,8 +21,11 @@ export class MazeResolverService {
     });
 
     return mazeResolvers.map((mazeResolver) => ({
-      ...mazeResolver,
-      input: mazeResolver.input.length,
+      id: mazeResolver.id,
+      processing: {
+        status: mazeResolver.processing.status,
+        totalTimeProcess: mazeResolver.processing.totalTimeToProcess,
+      },
     }));
   }
 

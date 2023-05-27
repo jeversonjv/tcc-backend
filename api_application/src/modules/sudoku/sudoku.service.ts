@@ -23,7 +23,13 @@ export class SudokuService {
     const sudokus = await this.sudokuRepository.find({
       relations: ['processing'],
     });
-    return sudokus;
+    return sudokus.map((sudoku) => ({
+      id: sudoku.id,
+      processing: {
+        status: sudoku.processing.status,
+        totalTimeProcess: sudoku.processing.totalTimeToProcess,
+      },
+    }));
   }
 
   async findOne(id: string) {

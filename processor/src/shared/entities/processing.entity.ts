@@ -32,6 +32,7 @@ export class Processing {
   @Column({
     name: 'finished_at',
     type: 'timestamp with time zone',
+    nullable: true,
   })
   finishedAt: Date;
 
