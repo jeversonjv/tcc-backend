@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-application
+  labels:
+    app: api-application
+spec:
+  selector:
+    matchLabels:
+      app: api-application
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: api-application
+    spec:
+      containers:
+        - name: api-application
+          image: "jeversontp/api-application:v2"
+          envFrom:
+            - configMapRef:
+                name: api-application-env
