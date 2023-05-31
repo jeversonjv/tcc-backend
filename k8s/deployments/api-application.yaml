@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: api-application
-          image: "jeversontp/api-application:v2"
+          image: "jeversontp/api-application:v3"
           envFrom:
             - configMapRef:
                 name: api-application-env
