@@ -5,7 +5,6 @@ import {
   Logger,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Message } from 'amqplib';
 import {
   connect,
   AmqpConnectionManager,
@@ -45,18 +44,6 @@ export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
     await this.close();
   }
 
-  async addSetup(queue: string, handle: any): Promise<void> {
-    this.channelWrapper.addSetup((channel) => {
-      return Promise.all([
-        channel.assertQueue(queue),
-        channel.consume(queue, (message) => {
-          handle.process(message);
-          channel.ack(message);
-        }),
-      ]);
-    });
-  }
-
   async publishInQueue(queue: string, message: string) {
     this.logger.log(`Publishing in queue: ${queue} - ${message}`);
 
@@ -74,12 +61,5 @@ export class RabbitMQServer implements OnModuleInit, OnApplicationShutdown {
       routingKey,
       Buffer.from(message),
     );
-  }
-
-  async consume(queue: string, callback: (message: Message) => void) {
-    return this.channelWrapper.consume(queue, (message) => {
-      callback(message);
-      this.channelWrapper.ack(message);
-    });
   }
 }

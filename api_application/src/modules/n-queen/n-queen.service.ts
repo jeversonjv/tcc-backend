@@ -15,10 +15,6 @@ export class NQueenService {
     private rabbitMQServer: RabbitMQServer,
   ) {}
 
-  async onModuleInit(): Promise<void> {
-    await this.rabbitMQServer.addSetup('n-queen-process', this);
-  }
-
   async findAll() {
     const nQueens = await this.nQueensRepository.find({
       relations: ['processing'],

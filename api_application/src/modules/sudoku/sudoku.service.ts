@@ -15,10 +15,6 @@ export class SudokuService {
     private rabbitMQServer: RabbitMQServer,
   ) {}
 
-  async onModuleInit(): Promise<void> {
-    await this.rabbitMQServer.addSetup('sudoku-process', this);
-  }
-
   async findAll() {
     const sudokus = await this.sudokuRepository.find({
       relations: ['processing'],
