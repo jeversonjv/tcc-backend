@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: processor-env
+data:
+  POSTGRES_HOST: postgres-service
+  POSTGRES_DB: postgres
+  POSTGRES_USER: admin
+  POSTGRES_PASSWORD: admin
+  POSTGRES_PORT: "5432"
+  PORT: "3001"
+  RABBITMQ_URL: amqp://admin:admin@rabbitmq-service:5672

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: processor
+  labels:
+    app: processor
+spec:
+  selector:
+    matchLabels:
+      app: processor
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: processor
+    spec:
+      containers:
+        - name: processor
+          image: "jeversontp/processor:latest"
+          envFrom:
+            - configMapRef:
+                name: processor-env
