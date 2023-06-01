@@ -26,7 +26,11 @@ export class SudokuService {
   async process(message: Message) {
     const { id } = JSON.parse(message.content.toString());
 
-    const sudoku = await this.sudokuRepository.findOne({ where: { id } });
+    const sudoku = await this.sudokuRepository.findOne({
+      where: { id },
+      relations: ['processing'],
+    });
+
     if (!sudoku) return;
 
     const input = sudoku.input as unknown as number[][];
@@ -34,15 +38,14 @@ export class SudokuService {
     const { result, totalTimeToProcess } =
       this.sudokuAlgorithmProvider.handle(input);
 
-    const updateData = {
-      processing: {
-        status: ProcessStatus.COMPLETED,
-        totalTimeToProcess,
-        result,
-        finishedAt: new Date(),
-      },
+    sudoku.processing = {
+      ...sudoku.processing,
+      status: ProcessStatus.COMPLETED,
+      totalTimeToProcess,
+      result: result as unknown as number[][],
+      finishedAt: new Date(),
     };
 
-    await this.sudokuRepository.save({ id, ...updateData });
+    await this.sudokuRepository.save(sudoku);
   }
 }

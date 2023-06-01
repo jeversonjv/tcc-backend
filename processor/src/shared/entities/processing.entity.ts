@@ -27,7 +27,7 @@ export class Processing {
     type: 'json',
     nullable: true,
   })
-  result: JSON;
+  result: JSON | number[][];
 
   @Column({
     name: 'finished_at',

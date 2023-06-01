@@ -29,21 +29,22 @@ export class MazeResolverService {
 
     const mazeResolver = await this.mazeResolverRepository.findOne({
       where: { id },
+      relations: ['processing'],
     });
+
     if (!mazeResolver) return;
 
     const { result, totalTimeToProcess } =
       this.mazeResolverAlgorithmProvider.handle(mazeResolver.input);
 
-    const updateData = {
-      processing: {
-        status: ProcessStatus.COMPLETED,
-        totalTimeToProcess,
-        result,
-        finishedAt: new Date(),
-      },
+    mazeResolver.processing = {
+      ...mazeResolver.processing,
+      status: ProcessStatus.COMPLETED,
+      totalTimeToProcess,
+      result,
+      finishedAt: new Date(),
     };
 
-    await this.mazeResolverRepository.save({ id, ...updateData });
+    await this.mazeResolverRepository.save(mazeResolver);
   }
 }
