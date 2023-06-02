@@ -26,10 +26,7 @@ export class MazeResolverAlgorithmProvider {
       startCol,
       endRow,
       endCol,
-    ).map((n) => ({
-      row: n.row,
-      col: n.col,
-    })) as unknown as JSON;
+    ).map((n) => [n.row, n.col]) as unknown as JSON;
 
     const end = performance.now();
 
@@ -93,7 +90,7 @@ export class MazeResolverAlgorithmProvider {
           nextRow < matrix.length &&
           nextCol >= 0 &&
           nextCol < matrix[0].length &&
-          matrix[nextRow][nextCol] === 0
+          matrix[nextRow][nextCol] === 1
         ) {
           const neighbor = nodes[nextRow][nextCol];
           neighbors.push(neighbor);
@@ -135,6 +132,6 @@ export class MazeResolverAlgorithmProvider {
     }
 
     // If we've explored all possible paths and haven't found the end, return null
-    return null;
+    return [];
   }
 }
