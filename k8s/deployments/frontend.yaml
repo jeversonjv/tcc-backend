@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-application
+  name: frontend
   labels:
-    app: api-application
+    app: frontend
 spec:
   selector:
     matchLabels:
-      app: api-application
-  replicas: 2
+      app: frontend
+  replicas: 1
   template:
     metadata:
       labels:
-        app: api-application
+        app: frontend
     spec:
       containers:
-        - name: api-application
-          image: "jeversontp/api-application:v4"
+        - name: frontend
+          image: "jeversontp/frontend"
           envFrom:
             - configMapRef:
-                name: api-application-env
+                name: frontend-env
           resources:
             limits:
               memory: "512Mi"

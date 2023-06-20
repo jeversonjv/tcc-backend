@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: processor
-  replicas: 3
+  replicas: 2
   template:
     metadata:
       labels:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: processor
-          image: "jeversontp/processor:v2"
+          image: "jeversontp/processor:v3"
           envFrom:
             - configMapRef:
                 name: processor-env
